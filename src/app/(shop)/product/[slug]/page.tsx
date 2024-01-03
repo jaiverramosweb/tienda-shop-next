@@ -1,3 +1,4 @@
+import { ProductMovileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector } from "@/components";
 import { titleFont } from "@/config/fonts";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
@@ -7,7 +8,7 @@ interface Props {
     slug: string;
   };
 }
-export default function ({ params }: Props) {
+export default function ProductPage({ params }: Props) {
   const { slug } = params;
 
   const product = initialData.products.find((product) => product.slug === slug);
@@ -20,7 +21,19 @@ export default function ({ params }: Props) {
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3">
       {/* Slideshow */}
       <div className="col-span-1 md:col-span-2">
-        <h1>Hoal mundo</h1>
+        {/* Desktop Slideshow */}
+        <ProductSlideshow 
+          title={product.title} 
+          images={product.images}
+          className="hidden md:block" 
+        />
+
+        {/* Movil Slideshow */}
+        <ProductMovileSlideshow 
+          title={product.title} 
+          images={product.images}
+          className="block md:hidden"
+        />
       </div>
 
       {/* Detalles */}
@@ -34,8 +47,10 @@ export default function ({ params }: Props) {
         <p className="text-lg mb-5">${product.price}</p>
 
         {/* Selector de talla */}
+        <SizeSelector availableSize={product.sizes} selectedSize={product.sizes[0]} />
 
         {/* Selector de cantidad */}
+        <QuantitySelector quantity={ 2 } />
 
         {/* Botton */}
         <button className="btn-primary my-5">Agregar al carrito</button>
