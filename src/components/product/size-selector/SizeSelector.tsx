@@ -2,11 +2,13 @@ import type { Size } from "@/interfaces"
 import clsx from "clsx";
 
 interface Props {
-    selectedSize: Size;
+    selectedSize?: Size;
     availableSize: Size[];
+
+    onSizeSelected: ( size: Size ) => void
 }
 
-export const SizeSelector = ({ selectedSize, availableSize }: Props) => {
+export const SizeSelector = ({ selectedSize, availableSize, onSizeSelected }: Props) => {
 
 
   return (
@@ -16,14 +18,18 @@ export const SizeSelector = ({ selectedSize, availableSize }: Props) => {
         <div className="flex">
             {
                 availableSize.map( size => (
-                    <button key={size} className={
-                        clsx(
-                            "mx-2 hover:underline text-lg",
-                            {
-                                'underline': size === selectedSize
-                            }
-                        )
-                    }>
+                    <button 
+                        key={size} 
+                        onClick={ () => onSizeSelected( size ) }
+                        className={
+                            clsx(
+                                "mx-2 hover:underline text-lg",
+                                {
+                                    'underline': size === selectedSize
+                                }
+                            )
+                        }
+                    >
                         { size }
                     </button>
                 ) )
