@@ -4,10 +4,10 @@ import { Title } from '@/components';
 import Link from 'next/link';
 import { IoCardOutline } from 'react-icons/io5';
 
-export default function ordersPage () {
+export default function OrdersPage() {
   return (
     <>
-      <Title title="Ordenes" />
+      <Title title="Orders" />
 
       <div className="mb-10">
         <table className="min-w-full">

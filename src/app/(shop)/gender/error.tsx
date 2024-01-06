@@ -1,7 +1,13 @@
-'use client'
+'use client';
 
-import PageNotFound from "@/components/ui/not-found/PageNotFound";
 
-export default function Error () {
-  return <PageNotFound />;
+import { PageNotFound } from '@/components';
+
+
+export default function GenderErrorPage() {
+
+
+  return (
+    <PageNotFound />
+  );
 }
