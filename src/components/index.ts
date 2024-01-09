@@ -1,4 +1,5 @@
 
+export * from './paypal/PayPalButton';
 
 export * from './provider/Provider';
 

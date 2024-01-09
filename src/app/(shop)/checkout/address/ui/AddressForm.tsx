@@ -32,13 +32,14 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
 
     const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         defaultValues: {
-            // TODO: leer de la base de datos
             ...(userStoredAddress as any),
             remenverAddress: false
         }
     });
 
     const { data: session } = useSession({ required: true });
+
+
     const setAddress = useAddressStore( state => state.setAddress );
     const address = useAddressStore( state => state.address );
 
@@ -122,10 +123,9 @@ export const AddressForm = ({ countries, userStoredAddress = {} }: Props) => {
           >
             <input
               type="checkbox"
-              {...register('remenverAddress')}
-              className=" border-r-gray-500 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
+              className="border-gray-500 before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-blue-500 checked:bg-blue-500 checked:before:bg-blue-500 hover:before:opacity-10"
               id="checkbox"
-              checked
+              { ...register('remenverAddress') }
             />
             <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
               <svg

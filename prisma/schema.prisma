@@ -129,6 +129,8 @@ model Order {
   // Relacion
   OrderItem    OrderItem[]
   OrderAddress OrderAddress?
+
+  transationId String?
 }
 
 model OrderItem {
