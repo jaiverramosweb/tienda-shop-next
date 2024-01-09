@@ -7,7 +7,6 @@ import { IoCardOutline } from "react-icons/io5";
 import { getOrderById } from "@/actions";
 import { currencyFormat } from "@/utils";
 
-
 interface Props {
   params: {
     id: string;
@@ -123,9 +122,7 @@ export default async function OrdersByIdPage({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-
-              <PayPalButton />
-
+              <PayPalButton amount={order!.total} orderId={order!.id} />
             </div>
           </div>
         </div>
