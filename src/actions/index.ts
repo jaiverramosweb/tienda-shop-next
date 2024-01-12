@@ -6,6 +6,8 @@ export * from "./auth/login";
 export * from "./auth/logout";
 export * from "./auth/register";
 
+export * from "./category/get-categories";
+
 export * from "./country/get-countries";
 
 export * from "./order/place-order";
@@ -19,3 +21,7 @@ export * from "./payments/set-tansaction-id";
 export * from "./product/get-product-by-slug";
 export * from "./product/get-stock-by-slug";
 export * from "./product/product-pagination";
+export * from "./product/create-update-product";
+
+export * from "./user/change-user-rol";
+export * from "./user/get-all-users";
