@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { Gender, Product, Size } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const productSchema = z.object({
@@ -37,48 +38,66 @@ export const createUpdateProduct = async (formData: FormData) => {
 
   const { id, ...rest } = product;
 
-  const prismaTx = await prisma.$transaction(async (tx) => {
-    let product: Product;
+  try {
+    const prismaTx = await prisma.$transaction(async (tx) => {
+      let product: Product;
 
-    const tagsArray = rest.tags
-      .split(",")
-      .map((tag) => tag.trim().toLowerCase());
+      const tagsArray = rest.tags
+        .split(",")
+        .map((tag) => tag.trim().toLowerCase());
 
-    if (id) {
-      // Actualizar
-      product = await prisma.product.update({
-        where: { id },
-        data: {
-          ...rest,
-          sizes: {
-            set: rest.sizes as Size[],
+      if (id) {
+        // Actualizar
+        product = await prisma.product.update({
+          where: { id },
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
+            },
+            tags: {
+              set: tagsArray,
+            },
           },
-          tags: {
-            set: tagsArray,
+        });
+      } else {
+        // Crear
+        product = await prisma.product.create({
+          data: {
+            ...rest,
+            sizes: {
+              set: rest.sizes as Size[],
+            },
+            tags: {
+              set: tagsArray,
+            },
           },
-        },
-      });
-    } else {
-      // Crear
-      product = await prisma.product.create({
-        data: {
-          ...rest,
-          sizes: {
-            set: rest.sizes as Size[],
-          },
-          tags: {
-            set: tagsArray,
-          },
-        },
-      });
-    }
+        });
+      }
 
-    return {};
-  });
+      // Carga y guardado de imagenes
+      if (formData.getAll("images")) {
+        console.log(formData.getAll("images"));
+      }
 
-  // Todo: RevalidatePaths
+      return {
+        product,
+      };
+    });
 
-  return {
-    ok: true,
-  };
+    // Todo: RevalidatePaths
+    revalidatePath("/admin/products");
+    revalidatePath(`/admin/product/${product.slug}`);
+    revalidatePath(`/product/${product.slug}`);
+
+    return {
+      ok: true,
+      product: prismaTx.product,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: "Revisar los logs, no se pudo actualizar/crear",
+    };
+  }
 };
