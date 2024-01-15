@@ -22,6 +22,7 @@ export * from "./product/get-product-by-slug";
 export * from "./product/get-stock-by-slug";
 export * from "./product/product-pagination";
 export * from "./product/create-update-product";
+export * from "./product/delete-images-product";
 
 export * from "./user/change-user-rol";
 export * from "./user/get-all-users";

@@ -1,14 +1,19 @@
 "use client";
 
-import { createUpdateProduct } from "@/actions";
-import { Categories, Product, ProductImage } from "@/interfaces";
+import { createUpdateProduct, deleteImagesProduct } from "@/actions";
+import { ProductImage } from "@/components";
+import {
+  Categories,
+  Product,
+  ProductImage as ProductWithImage,
+} from "@/interfaces";
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductWithImage[] };
   categories: Categories[];
 }
 
@@ -226,9 +231,9 @@ export const ProductForm = ({ product, categories }: Props) => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {product.ProductImage?.map((image) => (
               <div key={image.id}>
-                <Image
+                <ProductImage
                   alt={product.title ?? ""}
-                  src={`/products/${image.url}`}
+                  src={image.url}
                   width={300}
                   height={300}
                   className="rounded-t shadow-md"
@@ -236,7 +241,7 @@ export const ProductForm = ({ product, categories }: Props) => {
 
                 <button
                   type="button"
-                  onClick={() => console.log(image.id, image.url)}
+                  onClick={() => deleteImagesProduct(image.id, image.url)}
                   className="btn-danger rounded-b-lg w-full"
                 >
                   Eliminar
